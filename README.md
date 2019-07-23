@@ -23,3 +23,8 @@ join channelname
 disconnect
 
 die
+
+
+=====================
+
+idea author: DarkCat
