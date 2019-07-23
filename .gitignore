@@ -1,0 +1,7 @@
+/settings.py
+/venv/
+/.settings/
+/.__pycache__/
+*.pyc
+/.project
+/.pydevproject
