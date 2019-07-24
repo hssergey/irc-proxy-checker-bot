@@ -3,6 +3,7 @@ import requests, sys
 import socket
 import traceback
 
+tor_ips = []
 
 def check_dnsbl(ip):
     # API, через который происходит проверка
@@ -108,6 +109,25 @@ def get_socks_version(host, port):
         return 0
 
 
+
+def load_tor_ips():
+    data = ""
+    try:
+        response = requests.get('https://check.torproject.org/exit-addresses', timeout=15)  
+        data = response.text
+    except Exception as e:
+        print("can't connect to tor site, loading local list...")
+        f = open("tor-exit-nodes.txt", "r")
+        data = f.read()
+    lines = data.split("\n")
+    for line in lines:
+        if "ExitAddress" in line:
+            values = line.split(" ")
+            address =  values[1].strip()     
+            tor_ips.append(address)
+    print("Loaded %s tor exit nodes" % len(tor_ips))
+
+
 #main
 
 def check_bad_host(host):
@@ -123,6 +143,8 @@ def check_bad_host(host):
     try:
         ip = socket.gethostbyname(host)
         print("Checking host %s ip %s" % (host, ip));
+        if ip in tor_ips:
+            return(True, "Host %s is TOR exit node!" % host)
         if check_dnsbl(ip):
             return(True, "Host %s is in dnsbl!" % host)
         for port in socks_ports:

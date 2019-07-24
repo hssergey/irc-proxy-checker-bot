@@ -1,7 +1,7 @@
 import settings
 import irc.bot
 from irc.bot import ServerSpec
-from proxy_checker import check_bad_host
+from proxy_checker import check_bad_host, load_tor_ips
 
 
 class ProxyCheckerBot(irc.bot.SingleServerIRCBot):
@@ -56,7 +56,7 @@ class ProxyCheckerBot(irc.bot.SingleServerIRCBot):
             
     
 
-
+load_tor_ips()
 bot = ProxyCheckerBot(settings.server, settings.port, settings.username, settings.password, settings.nick)
 bot.start()
 
