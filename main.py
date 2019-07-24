@@ -27,7 +27,8 @@ class ProxyCheckerBot(irc.bot.SingleServerIRCBot):
         if result[0]:
             line = "!!! %s: %s " % (event.source.host, result[1])
             print(line)
-            self.connection.privmsg(ch, line)
+#             self.connection.privmsg(ch, line)
+            self.connection.notice(self.nick, line)
             self.connection.mode(ch, "+B *!*@%s" % event.source.host)
             self.connection.kick(ch, nick, "malicious host detected")
         
