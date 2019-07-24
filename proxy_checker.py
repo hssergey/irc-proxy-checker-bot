@@ -9,17 +9,17 @@ def check_dnsbl(ip):
     url = 'http://www.ip-score.com/ajax_handler/get_bls'
     # Список серверов с блек-листами
     blacklist = [
-      'block.dnsbl.sorbs.net', 
+#     'block.dnsbl.sorbs.net', 
       'dnsbl.dronebl.org',
-      'dnsbl.sorbs.net', 
-      'dul.dnsbl.sorbs.net', 
-      'escalations.dnsbl.sorbs.net',
-      'http.dnsbl.sorbs.net', 
-      'misc.dnsbl.sorbs.net', 'new.dnsbl.sorbs.net',
-      'old.dnsbl.sorbs.net',
-      'recent.dnsbl.sorbs.net',
-      'smtp.dnsbl.sorbs.net', 'socks.dnsbl.sorbs.net',
-      'web.dnsbl.sorbs.net', 'zombie.dnsbl.sorbs.net',
+#     'dnsbl.sorbs.net', 
+#     'dul.dnsbl.sorbs.net', 
+#     'escalations.dnsbl.sorbs.net',
+#     'http.dnsbl.sorbs.net', 
+#     'misc.dnsbl.sorbs.net', 'new.dnsbl.sorbs.net',
+#     'old.dnsbl.sorbs.net',
+#     'recent.dnsbl.sorbs.net',
+#     'smtp.dnsbl.sorbs.net', 'socks.dnsbl.sorbs.net',
+#     'web.dnsbl.sorbs.net', 'zombie.dnsbl.sorbs.net',
     ]
    
     for server in blacklist:
@@ -41,6 +41,7 @@ def check_dnsbl(ip):
             rating = data[server]
             # если значение не пустое, то IP в блек листе
             if rating != "":
+                print("found in %s" % server)
                 return server
         except Exception as e:
 #             traceback.print_exc()

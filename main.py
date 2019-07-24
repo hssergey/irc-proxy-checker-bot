@@ -28,6 +28,8 @@ class ProxyCheckerBot(irc.bot.SingleServerIRCBot):
             line = "!!! %s: %s " % (event.source.host, result[1])
             print(line)
             self.connection.privmsg(ch, line)
+            self.connection.mode(ch, "+B *!*@%s" % event.source.host)
+            self.connection.kick(ch, nick, "malicious host detected")
         
 
     def on_privmsg(self, c, e):
@@ -35,7 +37,7 @@ class ProxyCheckerBot(irc.bot.SingleServerIRCBot):
         
    
     def do_command(self, e, cmd):
-        print("got cmd: %s" % cmd)
+#         print("got cmd: %s" % cmd)
         nick = e.source.nick
         c = self.connection
         cmds = cmd.strip().split(" ")
@@ -48,8 +50,8 @@ class ProxyCheckerBot(irc.bot.SingleServerIRCBot):
             if len(cmds) == 2:
                 c.notice(nick, "joining %s" % cmds[1])
                 c.join(cmds[1])
-        else:
-            c.notice(nick, "Not understood: " + cmd)
+#         else:
+#             c.notice(nick, "Not understood: " + cmd)
             
     
 
