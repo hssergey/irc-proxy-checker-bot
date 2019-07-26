@@ -3,3 +3,4 @@ port = 6677
 username = 'user'
 password = 'password'
 nick = 'nickname'
+admin_nick = 'nickname'

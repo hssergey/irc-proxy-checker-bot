@@ -2,6 +2,8 @@ import settings
 import irc.bot
 from irc.bot import ServerSpec
 from proxy_checker import check_bad_host, load_tor_ips
+from vkhoroscope import vkhoroscope
+
 
 
 class ProxyCheckerBot(irc.bot.SingleServerIRCBot):
@@ -12,9 +14,22 @@ class ProxyCheckerBot(irc.bot.SingleServerIRCBot):
         server_spec = ServerSpec(server, port, password)
         irc.bot.SingleServerIRCBot.__init__(self, [server_spec], nick, username, username = username)
 
+
+    def irc_print(self, ch, message):
+        lines = message.split("\n")
+        for line in lines:
+            line = line.strip()
+            if line:
+                self.connection.privmsg(ch, line)
+            
  
-#     def on_pubmsg(self, c, e):
+    def on_pubmsg(self, c, e):
 #         print("%s: %s" % (c, e))
+        ch = e.target
+        message = e.arguments[0]
+#         print(message)
+        if "вкгороскоп" in message:
+            self.irc_print(ch, vkhoroscope(message))
         
 
     def on_join(self, connection, event):
@@ -40,6 +55,8 @@ class ProxyCheckerBot(irc.bot.SingleServerIRCBot):
     def do_command(self, e, cmd):
 #         print("got cmd: %s" % cmd)
         nick = e.source.nick
+        if not nick == settings.admin_nick:
+            return
         c = self.connection
         cmds = cmd.strip().split(" ")
 
