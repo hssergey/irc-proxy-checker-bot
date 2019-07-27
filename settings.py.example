@@ -4,3 +4,4 @@ username = 'user'
 password = 'password'
 nick = 'nickname'
 admin_nick = 'nickname'
+proxy_check_excluded_hosts = []

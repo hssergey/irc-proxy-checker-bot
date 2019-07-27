@@ -2,6 +2,7 @@
 import requests, sys
 import socket
 import traceback
+import settings
 
 tor_ips = []
 
@@ -141,6 +142,8 @@ def check_bad_host(host):
         8080,
     ]
     try:
+        if host in settings.proxy_check_excluded_hosts:
+            return (False, None)
         ip = socket.gethostbyname(host)
         print("Checking host %s ip %s" % (host, ip));
         if ip in tor_ips:
