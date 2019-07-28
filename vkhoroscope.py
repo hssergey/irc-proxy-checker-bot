@@ -33,7 +33,7 @@ def vkhoroscope(body):
 		try:
 			vkGroup = SIGNS[sign]
 		except Exception as e:
-			return('Не найден URL группы ВКонтакте. Проверьте правильность написания знака зодиака: ' + body[0])
+			return('Не найден URL группы ВКонтакте. Проверьте правильность написания знака зодиака: ' + body[1])
 		headers = {
 		    'User-Agent': "Mozilla/5.0 (X11; Linux x86_64; rv:16.0) Gecko/20100101 Firefox/16.0",
 		}

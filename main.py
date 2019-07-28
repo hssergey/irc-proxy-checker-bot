@@ -3,6 +3,7 @@ import irc.bot
 from irc.bot import ServerSpec
 from proxy_checker import check_bad_host, load_tor_ips
 from vkhoroscope import vkhoroscope
+from fun_handlers import fun_handlers
 
 
 
@@ -30,6 +31,8 @@ class ProxyCheckerBot(irc.bot.SingleServerIRCBot):
 #         print(message)
         if "вкгороскоп" in message:
             self.irc_print(ch, vkhoroscope(message))
+        else:
+            self.irc_print(ch, fun_handlers(message))
         
 
     def on_join(self, connection, event):
