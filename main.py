@@ -16,6 +16,11 @@ class ProxyCheckerBot(irc.bot.SingleServerIRCBot):
         irc.bot.SingleServerIRCBot.__init__(self, [server_spec], nick, username, username = username)
 
 
+    def on_welcome(self, c, e):
+        for channel in settings.channels:
+            c.join(channel)
+
+    
     def irc_print(self, ch, message):
         lines = message.split("\n")
         for line in lines:
