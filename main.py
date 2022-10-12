@@ -4,6 +4,7 @@ from irc.bot import ServerSpec
 from proxy_checker import check_bad_host, load_tor_ips
 from vkhoroscope import vkhoroscope
 from fun_handlers import fun_handlers
+from weather import get_weather
 
 
 
@@ -36,6 +37,10 @@ class ProxyCheckerBot(irc.bot.SingleServerIRCBot):
 #         print(message)
         if "вкгороскоп" in message:
             self.irc_print(ch, vkhoroscope(message))
+        elif message.startswith("!п"):
+            data = message.split(" ")
+            city = data[-1]
+            self.irc_print(ch, get_weather(city))
         else:
             self.irc_print(ch, fun_handlers(message))
         

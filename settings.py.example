@@ -6,3 +6,4 @@ nick = 'nickname'
 admin_nick = 'nickname'
 proxy_check_excluded_hosts = []
 channels = []
+openweathermap_key = ''
