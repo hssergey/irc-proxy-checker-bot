@@ -25,7 +25,7 @@ def fun_handlers(message):
         "финик",
         "бэха",
         "митсуби",
-        "пикап",
+#        "пикап",
         "бентли",
         "вольво",
         "акцент",
@@ -52,14 +52,14 @@ def fun_handlers(message):
     if "_сиськи" in message or "!сиськи" in message:
         return boobs()
     for word in shit_words:
-        if word in message:
+        if word in message.lower():
             test = random.randint(0, 1000)
-            if test > 800:
+            if test > 500:
                 return "%s говно" % word
     for word in rules_words:
         if word in message:
             test = random.randint(0, 1000)
-            if test > 800:
+            if test > 500:
                 return "%s рулит" % word
     for word in kokoko_words:
         if word in message:
@@ -68,19 +68,19 @@ def fun_handlers(message):
                 return "Лососни тунца"
     if "макось" in message:
         test = random.randint(0, 1000)
-        if test > 800:
+        if test > 500:
             return "гейось не нужна"
-    if "винда" in message:
-        test = random.randint(0, 1000)
-        if test > 800:
-            return "фи маздай"
+#    if "винда" in message:
+#        test = random.randint(0, 1000)
+#        if test > 500:
+#            return "фи маздай"
     if "макбук" in message:
         test = random.randint(0, 1000)
-        if test > 800:
+        if test > 500:
             return "[00:00:51] <@yekm> http://i.imgur.com/fAq3SkA.jpg - самое место для гейбука :)"
     if "запорожец" in message:
         test = random.randint(0, 1000)
-        if test > 800:
+        if test > 500:
             return "запорожец наше все!"
     
     return ""
