@@ -1,0 +1,15 @@
+version: '3'
+services:
+  irc-proxy-checker-bot:
+    user: irc_bot
+    restart: always
+    build:
+      context: .
+      dockerfile: ./DockerFile
+    volumes:
+      - ./:/app
+    logging:
+        driver: "json-file"
+        options:
+            max-size: "50m"
+            
