@@ -35,7 +35,7 @@ def vkhoroscope(body):
 		except Exception as e:
 			return('Не найден URL группы ВКонтакте. Проверьте правильность написания знака зодиака: ' + body[1])
 		headers = {
-		    'User-Agent': "Mozilla/5.0 (X11; Linux x86_64; rv:16.0) Gecko/20100101 Firefox/16.0",
+		    'User-Agent': "Mozilla/5.0 (X11; Linux x86_64; rv:16.0) Gecko/20100101 Firefox/106.0",
 		}
 		url = MAIN_URL + vkGroup
 		response = requests.get(url, headers = headers)
@@ -53,7 +53,7 @@ def vkhoroscope(body):
 		found_record = None
 		for record in records:
 			line = str(record.text)
-# 			print(line)
+			print(line)
 			# получаем из строки дату
 			match = re.search(r'[0-9]+', line)
 			if match and match.group(0) == str(date):
@@ -64,7 +64,7 @@ def vkhoroscope(body):
 			records = doc.xpath('//div[@class="wall_post_text zoom_text"]')
 			for record in records:
 				line = str(record.text)
-# 				print(line)
+				print(line)
 				# получаем из строки дату
 				match = re.search(r'[0-9]+', line)
 				if match and match.group(0) == str(date):
