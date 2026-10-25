@@ -8,7 +8,7 @@ def boobs():
     end_id = 7326
     for i in range(0, max_tries):
         id = random.randint(start_id, end_id)
-        url = "http://media.oboobs.ru/boobs/0%s.jpg" % id
+        url = "https://media.oboobs.ru/boobs/0%s.jpg" % id
         response = requests.head(url, timeout = 10)
         if response.status_code == 200:
             return url
