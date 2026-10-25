@@ -3,6 +3,7 @@ import lxml.html
 import datetime
 import re
 import traceback
+import json
 
 MAIN_URL = "http://vk.com/public"
 
@@ -21,6 +22,21 @@ SIGNS = {
 	"трелец":	"38522190",
 }
 
+
+months = [
+	'января',
+	'февраля',
+	'марта',
+	'апреля',
+	'мая',
+	'июня',
+	'июля',
+	'августа',
+	'сентября',
+	'октября',
+	'ноября',
+	'декабря'
+]
 
 
 def vkhoroscope(body):
@@ -41,58 +57,23 @@ def vkhoroscope(body):
 		response = requests.get(url, headers = headers)
 		data = response.text
 # 		data = data.decode('windows-1251')
-		#print data
+		# print(data)
 		doc = lxml.html.document_fromstring(data)
 		# получаем индекс записи, в которой находится гороскоп, а не спам
 		# гороскопная запись начинается с даты
 		now = datetime.datetime.now()
-		date = now.day
-		answer = ""
-		records = doc.xpath('//div[@class="wall_post_text"]')
-		found = False
-		found_record = None
-		for record in records:
-			line = str(record.text)
-			print(line)
-			# получаем из строки дату
-			match = re.search(r'[0-9]+', line)
-			if match and match.group(0) == str(date):
-				found_record = record
-				found = True
-				break
-		if not found:
-			records = doc.xpath('//div[@class="wall_post_text zoom_text"]')
-			for record in records:
-				line = str(record.text)
-				print(line)
-				# получаем из строки дату
-				match = re.search(r'[0-9]+', line)
-				if match and match.group(0) == str(date):
-					found_record = record
-					found = True
-					break
-		if not found:
-			records = doc.xpath('//div[@class="pi_text"]')
-			for record in records:
-				line = str(record.text)
-				print(line)
-				# получаем из строки дату
-				match = re.search(r'[0-9]+', line)
-				if match and match.group(0) == str(date):
-					found_record = record
-					found = True
-					break
-		if found:
-			date = str(found_record.text)
-			answer = str(found_record.text_content())
-			#adding line break between date and horoscope text
-			lines = answer.split(date)
-			answer = date
-			for line in lines:
-				answer = answer + line + "\n"
-			return(answer)
-		else:
-			return("Не найден гороскоп на сегодняшний день. Возможно, авторы не обновили его на странице ВКонтакте")
+		# print(f'month = {now.month}')
+		date = f'{now.day} {months[now.month-1]}'
+		records = doc.xpath('//div[@class="PostContentContainer__root PostContentContainer"]')
+		for root_record in records:
+			data = root_record.get('data-exec')
+			unquoted_data = requests.utils.unquote(data)
+			data_obj = json.loads(unquoted_data)
+			text = data_obj['PostContentContainer/init']['item']['text']
+			if date in text:
+				text = text.replace("<br>", "\n").replace('&#33;', '!')
+				return text
+		return("Не найден гороскоп на сегодняшний день. Возможно, авторы не обновили его на странице ВКонтакте")
 	except Exception as e:
 		traceback.print_exc()
 		return(str(e))

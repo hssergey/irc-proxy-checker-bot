@@ -37,7 +37,7 @@ class ProxyCheckerBot(irc.bot.SingleServerIRCBot):
 #         print(message)
         if "вкгороскоп" in message:
             self.irc_print(ch, vkhoroscope(message))
-        elif message.startswith("!п"):
+        elif message.startswith("!пп"):
             data = message.split(" ")
             city = data[-1]
             self.irc_print(ch, get_weather(city))
