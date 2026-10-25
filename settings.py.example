@@ -1,5 +1,6 @@
 server = 'irc.wenet.ru'
 port = 6677
+encoding = 'UTF-8'
 username = 'user'
 password = 'password'
 nick = 'nickname'

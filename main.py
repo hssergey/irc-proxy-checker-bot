@@ -1,5 +1,6 @@
 import settings
 import irc.bot
+import irc.client
 from irc.bot import ServerSpec
 from proxy_checker import check_bad_host, load_tor_ips
 from vkhoroscope import vkhoroscope
@@ -11,7 +12,9 @@ from weather import get_weather
 class ProxyCheckerBot(irc.bot.SingleServerIRCBot):
     nick = None
     
-    def __init__(self, server, port, username, password, nick):
+    def __init__(self, server, port, username, password, nick, encoding):
+        irc.client.ServerConnection.buffer_class.encoding = encoding
+        irc.client.ServerConnection.transmit_encoding = encoding
         self.nick = nick
         server_spec = ServerSpec(server, port, password)
         irc.bot.SingleServerIRCBot.__init__(self, [server_spec], nick, username, username = username)
@@ -35,9 +38,9 @@ class ProxyCheckerBot(irc.bot.SingleServerIRCBot):
         ch = e.target
         message = e.arguments[0]
 #         print(message)
-        if "вкгороскоп" in message:
+        if "_вкгороскоп" in message or "!вкгороскоп" in message:
             self.irc_print(ch, vkhoroscope(message))
-        elif message.startswith("!пп"):
+        elif message.startswith("!пп") or message.startswith("_пп"):
             data = message.split(" ")
             city = data[-1]
             self.irc_print(ch, get_weather(city))
@@ -87,7 +90,7 @@ class ProxyCheckerBot(irc.bot.SingleServerIRCBot):
     
 
 load_tor_ips()
-bot = ProxyCheckerBot(settings.server, settings.port, settings.username, settings.password, settings.nick)
+bot = ProxyCheckerBot(settings.server, settings.port, settings.username, settings.password, settings.nick, settings.encoding)
 bot.start()
 
 
